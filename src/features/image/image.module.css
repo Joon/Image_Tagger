@@ -1,0 +1,48 @@
+
+.active {
+    background-color: teal;
+    color: white;
+}
+
+.gridcontainer {
+    float: right;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas: 'left right'
+        'left right'
+        'footer footer';
+    grid-gap: 10px;
+    background-color: #2196F3;
+    padding: 10px;
+}
+
+.griditem {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 15px;
+}
+
+.activeGridItem {
+    background-color: teal;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 15px;
+    color: white;
+}
+
+.gridfooter {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 15px;
+    grid-area: footer; 
+}
+
+.activeGridFooter {    
+    background-color: teal;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 15px;
+    grid-area: footer; 
+}
