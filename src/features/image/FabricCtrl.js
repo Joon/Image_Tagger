@@ -40,8 +40,7 @@ class FabricControlInternal extends Component {
                 let currentRect = groupObjects[i];
                 let xDist = Math.abs(currentRect.get('gridX') - targetX);
                 let yDist = Math.abs(currentRect.get('gridY') - targetY);
-
-                if (xDist + yDist <= distance) {
+                if (xDist + yDist <= distance - 1) {
                         currentRect.set('category', category);
                         currentRect.set('fill', color);
                 }                    
@@ -191,8 +190,8 @@ class FabricControlInternal extends Component {
             }
             window.fabricCanvas.absolutePan(window.canvasOrigin);
             window.fabricCanvas.renderAll();
-            window.currentClickColor = 'pink';
-            window.currentClickCategory = 'whatevs';
+            window.currentClickColor = this.props.currentClassificationColor;
+            window.currentClickCategory = this.props.currentClassificationName;
             window.clickDistance = this.props.currentWidth;
         }
         return <div style={{float: 'left'}}><canvas ref={this.el}></canvas></div>
@@ -203,7 +202,9 @@ const mapStateToProps = (state, ownProps) => {
     return {    
         currentImage: state.fabric.displayImage,
         currentZoom: state.fabric.currentZoom,
-        currentWidth: state.fabric.currentWidth
+        currentWidth: state.fabric.currentWidth,
+        currentClassificationName: state.fabric.currentClassificationName,
+        currentClassificationColor: state.fabric.currentClassificationColor
     }
 }
 

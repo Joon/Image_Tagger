@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { showImage, setZoomLevel, setCurrentWidth } from './fabricSlice';
+import { showImage, setZoomLevel, setCurrentWidth, setClassification } from './fabricSlice';
 import styles from './image.module.css';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
@@ -9,10 +9,11 @@ class ControlPanelInternal extends Component {
 
     constructor(props) {
         super();
-        this.state = {currentWidth: props.currentWidth};
+        this.state = {currentWidth: props.currentWidth, currentClassification: "none"};
         this.loadImage = this.loadImage.bind(this);
         this.setZoomLevel = this.setZoomLevel.bind(this);
         this.setWidth = this.setWidth.bind(this);
+        this.setClassificationType = this.setClassificationType.bind(this);
     }
 
     render() {
@@ -29,6 +30,7 @@ class ControlPanelInternal extends Component {
                 });
                 displayCatCount = uniqueCategories.map(o => <p key={o}>{o}: {this.props.currentData.filter(item => item.category === o).length}</p>);
             }
+            let captureState = this.state;
             // an object is selected so lets interact with it
             return (<div className={styles.controlPanel}>
                         <div className={styles.gridcontainer}>
@@ -43,6 +45,15 @@ class ControlPanelInternal extends Component {
                             <Slider min={1} max={25} value={this.state.currentWidth} onChange={this.setWidth} 
                                 onAfterChange={this.props.setWidth} />
                         </div>
+                        <div>
+                            <p>Classify clicked blocks as:</p>
+                            <select name="select" onChange={this.setClassificationType} defaultValue={captureState.currentClassification}>
+                                {
+                                this.props.classifications.map(function(n) { 
+                                    return (<option key={n.type} value={n.type}>{n.type + ": " + n.color}</option>);
+                                })}
+                            </select>
+                        </div>
                     <p>Current data count:</p> {displayCatCount}
                 </div>);
         } 
@@ -50,6 +61,12 @@ class ControlPanelInternal extends Component {
 
     loadImage() {
         this.props.displayImage('https://joon-image-tag.s3.eu-west-1.amazonaws.com/GrassAndHouses.JPG');
+    }
+
+    setClassificationType(e) {
+        this.setState({currentClassification: e.target.value});
+        let typeName = e.target.value;        
+        this.props.setClassificationType(this.props.classifications.find(o => o.type === typeName));
     }
 
     setWidth(width) {
@@ -63,6 +80,7 @@ class ControlPanelInternal extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {    
+        classifications: state.fabric.classificationTypes,
         currentImage: state.fabric.displayImage,
         currentZoom: state.fabric.currentZoom,
         currentData: state.fabric.fabricData,
@@ -75,6 +93,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         displayImage: function(imageUrl) { dispatch(showImage(imageUrl)) },
         setZoom: function(zoomLevel) { dispatch(setZoomLevel(zoomLevel)) },
         setWidth: function(newWidth) { dispatch(setCurrentWidth(newWidth))},
+        setClassificationType: function(newClassification) { dispatch(setClassification(newClassification)) },
     }
 }
 

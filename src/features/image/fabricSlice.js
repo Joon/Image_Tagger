@@ -3,28 +3,40 @@ import { createSlice } from '@reduxjs/toolkit';
 export const fabricSlice = createSlice({
   name: 'fabric',
   initialState: {
-    fabricData: null,
+    classificationTypes: [{type: "none", color: "grey"}, {type: "foliage", color: "green"}, 
+      {type: "water", color: "blue"}, {type: "building", color: "pink"}, {type: "road", color: "yellow"}],
+    fabricData: [],
     displayImage: "",
     currentZoom: 0,
-    currentWidth: 3
+    currentWidth: 3,
+    currentClassificationName: "none",
+    currentClassificationColor: "gray"
   },
   reducers: {
     setFabricData: (state, action) => {
-      state.fabricData = action.payload
+      if (action.payload) {      
+        state.fabricData = action.payload.slice(1);
+      } else {
+        state.fabricData = [];
+      }
     },
     showImage: (state, action) => {
-      state.displayImage = action.payload
+      state.displayImage = action.payload;
     },
     setZoomLevel: (state, action) => {
-      state.currentZoom = action.payload
+      state.currentZoom = action.payload;
     },
     setCurrentWidth: (state, action) => {
-      state.currentWidth = action.payload
+      state.currentWidth = action.payload;
+    },
+    setClassification: (state, action) => {
+      state.currentClassificationColor = action.payload.color;
+      state.currentClassificationName = action.payload.type;
     }
   },
 });
 
-export const { setFabricData, showImage, setZoomLevel, setCurrentWidth } = fabricSlice.actions;
+export const { setFabricData, showImage, setZoomLevel, setCurrentWidth, setClassification } = fabricSlice.actions;
 
 export const selectFabricData = state => state.fabricData;
 
