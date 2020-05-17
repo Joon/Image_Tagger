@@ -1,12 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-import counterReducer from '../features/counter/counterSlice';
 import fabricReducer from '../features/image/fabricSlice';
+import queueReducer from '../features/queue/queueSlice';
+import managementReducer from '../features/management/managementSlice';
 
 export default configureStore({
-  reducer: {
-    counter: counterReducer,
-    fabric: fabricReducer
-  },
-  middleware: [thunk]
+    reducer: {    
+        fabric: fabricReducer,
+        queue: queueReducer,
+        management: managementReducer
+    },
+    middleware: [thunk]
 });
+

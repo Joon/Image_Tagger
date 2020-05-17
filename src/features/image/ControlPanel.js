@@ -4,6 +4,7 @@ import { showImage, setZoomLevel, setCurrentWidth, setClassification } from './f
 import styles from './image.module.css';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import QueueControl from '../queue/QueueCtrl';
 
 class ControlPanelInternal extends Component {        
 
@@ -19,8 +20,9 @@ class ControlPanelInternal extends Component {
     render() {
         if (!this.props.currentImage || this.props.currentImage === "") {
             // no object is on the canvas so show interface to add one
-            return (<div style={{float: "right"}}>
-                <button onClick={this.loadImage}>Add Picture</button>
+            return (<div className={styles.controlPanel}>
+                <QueueControl></QueueControl>
+                {/*<button onClick={this.loadImage}>Add Picture</button>*/}
             </div>);
         } else {
             let displayCatCount = null;

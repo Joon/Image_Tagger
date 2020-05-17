@@ -1,0 +1,64 @@
+{
+    "paths": [
+        {
+            "name": "/queue",
+            "lambdaFunction": "imgtggrqueuelist",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH"
+                ]
+            }
+        },
+        {
+            "name": "/images/{queueName}",
+            "lambdaFunction": "imgtggrimages",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH"
+                ]
+            }
+        }
+    ],
+    "resourceName": "queue",
+    "apiName": "queue",
+    "functionArns": [
+        {
+            "lambdaFunction": "imgtggrqueuelist"
+        },
+        {
+            "lambdaFunction": "imgtggrimages"
+        }
+    ],
+    "privacy": {
+        "auth": 2,
+        "unauth": 0,
+        "authRoleName": "amplify-imgtggr-dev-125908-authRole",
+        "unAuthRoleName": "amplify-imgtggr-dev-125908-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "imgtggrqueuelist",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "imgtggrimages",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

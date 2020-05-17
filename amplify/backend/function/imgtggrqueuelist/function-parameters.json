@@ -1,0 +1,19 @@
+{
+    "permissions": {
+        "auth": {
+            "imgtggr033f669d": [
+                "create",
+                "read",
+                "update"
+            ]
+        },
+        "storage": {
+            "queueImages": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}
