@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import { Form, Spin, Input, Button, notification, Col, Row } from 'antd';
 import { UserOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
+import { setSelectedUser } from '../queue/queueSlice';
+import { connect } from 'react-redux';
 
-export default class LoginContainer extends Component {
+class LoginContainerInternal extends Component {
     state = {
         loading: false
     };
@@ -24,6 +26,7 @@ export default class LoginContainer extends Component {
                 };
 
                 localStorage.setItem('AUTH_USER_TOKEN_KEY', user.signInUserSession.accessToken.jwtToken);
+                this.props.setSelectedUser();
 
                 notification.success({
                     message: 'Succesfully logged in!',
@@ -97,3 +100,18 @@ export default class LoginContainer extends Component {
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return ownProps;
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        setSelectedUser: () => {
+            dispatch(setSelectedUser())
+        }
+    }
+}
+
+const LoginContainer = connect(mapStateToProps, mapDispatchToProps)(LoginContainerInternal)
+export default LoginContainer;

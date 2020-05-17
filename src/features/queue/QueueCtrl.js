@@ -13,10 +13,8 @@ class QueueControlInternal extends Component {
     render() {
         return <div>
             <label>
-                Queue Name:
-                <input id="queuename" value={this.state.queueName} onChange={this.handleChange}></input>
-            </label>
-            <button onClick={() => this.props.setQueue(this.state.queueName)}>Set Q</button>
+                Queue Name: {this.props.queueName} 
+            </label>            
             <label>
                 Select Image to Classify:
                 <select value={this.props.currentImage}>

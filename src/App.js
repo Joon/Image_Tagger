@@ -2,12 +2,7 @@ import React from 'react';
 import './App.css';
 import { selectError } from './features/management/managementSlice';
 import { useSelector } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from './Home';
 import SignUpContainer from './features/usermanagement/SignUpContainer';
 import ConfirmRegistration from './features/usermanagement/ConfirmRegistration';

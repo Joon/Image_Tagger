@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { showImage } from '../image/fabricSlice';
 import { setError} from '../management/managementSlice';
 import axios from 'axios';
+import { Auth} from 'aws-amplify';
 
 export const queueSlice = createSlice({
     name: 'queue',
@@ -47,4 +48,12 @@ export const setSelectedImage = (imageName) => (dispatch, getState) => {
     let chosenImage = availableImages.find(i => i.name === imageName);
     dispatch(selectImage(chosenImage));
     dispatch(showImage(chosenImage.uri));
+}
+
+export const setSelectedUser = () => (dispatch, getState) => {
+    //inside some async function, AFTER the user has authenticated with Cognito
+    Auth.currentSession().then(tokens => {
+        const userName = tokens.getIdToken().payload['name'];
+        dispatch(setSelectedQueue(userName));
+    });
 }

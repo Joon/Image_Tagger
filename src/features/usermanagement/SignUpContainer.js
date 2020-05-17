@@ -14,7 +14,7 @@ export default class SignUpContainer extends Component {
     };
 
     onFinish = (values) => {    
-        let { fname, lname, password, email } = values;
+        let { fname, password, email } = values;
 
         // show loader
         this.setState({ loading: true });
@@ -24,7 +24,7 @@ export default class SignUpContainer extends Component {
             password,
             attributes: {
                 email,
-                name: fname + " " + lname
+                name: fname 
             }
         })
         .then(() => {
@@ -63,36 +63,30 @@ export default class SignUpContainer extends Component {
         }
     };
 
+    validateMessages = {
+        types: {
+            // eslint-disable-next-line
+            email: '${label} is not a valid email!'              
+        }
+    };
+
     render() {
         const { redirect, loading } = this.state;
 
         return (
         <React.Fragment>
-            <Form onFinish={this.onFinish} ref={this.formRef}>
+            <Form onFinish={this.onFinish} ref={this.formRef} validateMessages={this.validateMessages}>
                 <Form.Item
-                    label="First Name"
+                    label="Name"
                     name="fname"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your first name!',
+                            message: 'Please input your name!',
                         },
                     ]}>
                     <Input
-                        placeholder="First Name"
-                    />
-                </Form.Item>
-                <Form.Item
-                    label="Last Name"
-                    name="lname"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your last name!',
-                        },
-                    ]}>
-                    <Input
-                        placeholder="Last Name"
+                        placeholder="Name"
                     />
                 </Form.Item>
                 <Form.Item
@@ -100,6 +94,7 @@ export default class SignUpContainer extends Component {
                     name="email"
                     rules={[
                         {
+                            type: 'email',
                             required: true,
                             message: 'Please input your email!',
                         },
