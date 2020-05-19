@@ -2,7 +2,7 @@ import json
 import boto3
 import os
 
-images_bucket = "joon-image-tag"
+images_bucket = "imgtggrqueueimages125908-dev"
  
 def save_image_data(event):
     to_save = json.loads(event['body'])

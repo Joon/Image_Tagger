@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { showImage } from '../image/fabricSlice';
 import { setError} from '../management/managementSlice';
-import axios from 'axios';
-import { Auth} from 'aws-amplify';
+import { Auth, API } from 'aws-amplify';
 
 export const queueSlice = createSlice({
     name: 'queue',
@@ -29,18 +28,27 @@ const { setQueueName, selectImage } = queueSlice.actions;
 
 export default queueSlice.reducer;
 
-axios.defaults.headers.common['Accept'] = 'application/json';
+export const setSelectedQueue = (queue) => async dispatch => {
+    const apiName = 'queue';
+    const path = '/images/' + queue; 
 
-export const setSelectedQueue = (queue) => dispatch => {
-    axios.get("https://6ysc4nz5q9.execute-api.eu-west-1.amazonaws.com/default/imgtggr-images?assigned_to=" + queue).then(
-        (response) => {
-            dispatch(setQueueName({
-                availableFiles: response.data.availableFiles,
-                completedClassifications: response.data.completedClassifications,
-                queueName: queue
-            }));
-        }
-    ).catch((error) => dispatch(setError(error.message)));
+    const myInit = { 
+        headers: { 
+          Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+        },
+      };
+
+    API.get(apiName, path, myInit).then(response => {
+        console.log(response);
+        dispatch(setQueueName({
+            availableFiles: response.availableFiles,
+            completedClassifications: response.completedClassifications,
+            queueName: queue
+        }));
+    })
+    .catch(error => {
+        dispatch(setError(error.message))
+    });
 }
 
 export const setSelectedImage = (imageName) => (dispatch, getState) => {    
