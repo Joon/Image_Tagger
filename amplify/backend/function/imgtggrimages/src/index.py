@@ -2,6 +2,7 @@ import json
 import boto3
 import os
 
+# This is a hack. TODO: Figure out how to pass bucket name into the lambda
 images_bucket = "imgtggrqueueimages125908-dev"
  
 def save_image_data(event):
@@ -32,6 +33,10 @@ def get_image_data(object_id):
 def get_image_list(event):
     s3 = boto3.client("s3")
     
+    requested_path = event['path']  
+    # Split path (e.g. "/images/Joon") into a max of 2 parts
+    path_parts = requested_path.split("/", 1)
+
     availableFiles = []
     completedClassifications = []
     
@@ -44,7 +49,7 @@ def get_image_list(event):
         
     response = s3.list_objects_v2(
             Bucket = images_bucket,
-            Prefix = event['queryStringParameters']['assigned_to'].lower() + "/",
+            Prefix = path_parts[1].lower() + "/",
             MaxKeys = 1000 )
     
     if ('Contents' in response):
@@ -62,6 +67,7 @@ supportedResources = {
 
 def handler(event, context):
     print(json.dumps(event))
+    
     required_method = event['httpMethod'] + event['resource']
     print("METHOD: " + required_method)
     processor = supportedResources.get(required_method, lambda x: "Unknown Request")
