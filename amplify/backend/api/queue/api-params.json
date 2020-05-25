@@ -22,8 +22,7 @@
                     "/POST",
                     "/GET",
                     "/PUT",
-                    "/PATCH",
-                    "/DELETE"
+                    "/PATCH"
                 ]
             }
         }
@@ -61,6 +60,5 @@
                 "Arn"
             ]
         }
-    ],
-    "uuid": "869ecfd3"
+    ]
 }

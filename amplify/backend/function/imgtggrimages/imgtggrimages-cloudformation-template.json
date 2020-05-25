@@ -82,7 +82,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-imgtggr-dev-125908-deployment",
-					"S3Key": "amplify-builds/imgtggrimages-78417753663156544871-build.zip"
+					"S3Key": "amplify-builds/imgtggrimages-6d63566a686377585963-build.zip"
 				}
 			}
 		},

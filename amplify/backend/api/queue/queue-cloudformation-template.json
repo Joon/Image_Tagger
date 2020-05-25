@@ -607,72 +607,6 @@
                         ]
                       }
                     
-                      ,
-                    
-                    
-                      {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:aws:execute-api:",
-                            {
-                              "Ref": "AWS::Region"
-                            },
-                            ":",
-                            {
-                              "Ref": "AWS::AccountId"
-                            },
-                            ":",
-                            {
-                              "Ref": "queue"
-                            },
-                            "/",
-                            {
-                              "Fn::If": [
-                                "ShouldNotCreateEnvResources",
-                                "Prod", 
-                                {
-                                  "Ref": "env"
-                                } 
-                              ]
-                            },
-                              "/DELETE",
-                            "/images/{queueName}/*"
-                          ]
-                        ]
-                      },
-                                            {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:aws:execute-api:",
-                            {
-                              "Ref": "AWS::Region"
-                            },
-                            ":",
-                            {
-                              "Ref": "AWS::AccountId"
-                            },
-                            ":",
-                            {
-                              "Ref": "queue"
-                            },
-                            "/",
-                            {
-                              "Fn::If": [
-                                "ShouldNotCreateEnvResources",
-                                "Prod", 
-                                {
-                                  "Ref": "env"
-                                } 
-                              ]
-                            },
-                              "/DELETE",
-                            "/images/{queueName}"
-                          ]
-                        ]
-                      }
-                    
                     
                     
                     
@@ -1269,7 +1203,7 @@
         
         
         
-      "DeploymentAPIGWqueue869ecfd3": {
+      "DeploymentAPIGWqueue": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",

@@ -1,83 +1,83 @@
 {
-    "auth": {
-        "imgtggr033f669d": {
-            "service": "Cognito",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": []
-        }
-    },
-    "storage": {
-        "queueImages": {
-            "service": "S3",
-            "providerPlugin": "awscloudformation"
-        }
-    },
-    "function": {
-        "imgtggrqueuelist": {
-            "build": true,
-            "providerPlugin": "awscloudformation",
-            "service": "Lambda",
-            "dependsOn": [
-                {
-                    "category": "auth",
-                    "resourceName": "imgtggr033f669d",
-                    "attributes": [
-                        "UserPoolId"
-                    ]
-                },
-                {
-                    "category": "storage",
-                    "resourceName": "queueImages",
-                    "attributes": [
-                        "BucketName"
-                    ]
-                }
-            ]
-        },
-        "imgtggrimages": {
-            "build": true,
-            "providerPlugin": "awscloudformation",
-            "service": "Lambda",
-            "dependsOn": [
-                {
-                    "category": "auth",
-                    "resourceName": "imgtggr033f669d",
-                    "attributes": [
-                        "UserPoolId"
-                    ]
-                },
-                {
-                    "category": "storage",
-                    "resourceName": "queueImages",
-                    "attributes": [
-                        "BucketName"
-                    ]
-                }
-            ]
-        }
-    },
-    "api": {
-        "queue": {
-            "service": "API Gateway",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": [
-                {
-                    "category": "function",
-                    "resourceName": "imgtggrqueuelist",
-                    "attributes": [
-                        "Name",
-                        "Arn"
-                    ]
-                },
-                {
-                    "category": "function",
-                    "resourceName": "imgtggrimages",
-                    "attributes": [
-                        "Name",
-                        "Arn"
-                    ]
-                }
-            ]
-        }
-    }
+	"auth": {
+		"imgtggr033f669d": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
+	"storage": {
+		"queueImages": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"function": {
+		"imgtggrqueuelist": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "imgtggr033f669d",
+					"attributes": [
+						"UserPoolId"
+					]
+				},
+				{
+					"category": "storage",
+					"resourceName": "queueImages",
+					"attributes": [
+						"BucketName"
+					]
+				}
+			]
+		},
+		"imgtggrimages": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "imgtggr033f669d",
+					"attributes": [
+						"UserPoolId"
+					]
+				},
+				{
+					"category": "storage",
+					"resourceName": "queueImages",
+					"attributes": [
+						"BucketName"
+					]
+				}
+			]
+		}
+	},
+	"api": {
+		"queue": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "imgtggrqueuelist",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				},
+				{
+					"category": "function",
+					"resourceName": "imgtggrimages",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		}
+	}
 }

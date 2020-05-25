@@ -2,7 +2,8 @@ import json
 import boto3
 import os
 
-# This is a hack. TODO: Figure out how to pass bucket name into the lambda
+# This is a hack. TODO: Figure out how to pass bucket name into the lambda 
+#                       from the cloudformation template
 images_bucket = "imgtggrqueueimages125908-dev"
  
 def save_image_data(event):
@@ -68,7 +69,10 @@ supportedResources = {
 def handler(event, context):
     print(json.dumps(event))
     
-    required_method = event['httpMethod'] + event['resource']
+    requested_path = event['path']      
+    path_start = requested_path.split("/")[0]
+
+    required_method = event['httpMethod'] + "/" + path_start
     print("METHOD: " + required_method)
     processor = supportedResources.get(required_method, lambda x: "Unknown Request")
     
