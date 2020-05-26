@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { showImage, setZoomLevel, setCurrentWidth, setClassification } from './fabricSlice';
+import { showImage, setZoomLevel, setCurrentWidth, setClassification, setOverride } from './fabricSlice';
 import styles from './image.module.css';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import QueueControl from '../queue/QueueCtrl';
+import { Checkbox } from 'antd';
 
 class ControlPanelInternal extends Component {        
 
@@ -15,6 +16,7 @@ class ControlPanelInternal extends Component {
         this.setZoomLevel = this.setZoomLevel.bind(this);
         this.setWidth = this.setWidth.bind(this);
         this.setClassificationType = this.setClassificationType.bind(this);
+        this.overrideChange = this.overrideChange.bind(this);
     }
 
     render() {
@@ -55,14 +57,22 @@ class ControlPanelInternal extends Component {
                                     return (<option key={n.type} value={n.type}>{n.type + ": " + n.color}</option>);
                                 })}
                             </select>
+                            <label>
+                                Override
+                                <Checkbox label="Override Selection" onChange={this.overrideChange}></Checkbox>
+                            </label>
                         </div>
                     <p>Current data count:</p> {displayCatCount}
                 </div>);
         } 
     }
 
-    loadImage() {
-        this.props.displayImage('https://joon-image-tag.s3.eu-west-1.amazonaws.com/GrassAndHouses.JPG');
+    loadImage(imageUri) {
+        this.props.displayImage(imageUri);
+    }
+
+    overrideChange(event) {
+        this.props.setOverrideValue(event.target.checked);
     }
 
     setClassificationType(e) {
@@ -96,6 +106,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         setZoom: function(zoomLevel) { dispatch(setZoomLevel(zoomLevel)) },
         setWidth: function(newWidth) { dispatch(setCurrentWidth(newWidth))},
         setClassificationType: function(newClassification) { dispatch(setClassification(newClassification)) },
+        setOverrideValue: function(newOverride) { dispatch(setOverride(newOverride)) }
     }
 }
 

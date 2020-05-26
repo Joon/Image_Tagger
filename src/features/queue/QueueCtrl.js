@@ -11,21 +11,25 @@ class QueueControlInternal extends Component {
     }
 
     render() {
+        let imgList = [""];
+        imgList.push(this.props.availableImages);
+        imgList = imgList.flat();
+
         return <div>
             <label>
                 Queue Name: {this.props.queueName} 
-            </label>            
+            </label><br/>
             <label>
                 Select Image to Classify:
-                <select value={this.props.currentImage}>
-                    {this.props.availableImages ? this.props.availableImages.map(name => <option key={name} value={name}>{name}</option>) : null}
+                <select value={this.props.currentImage} onChange={this.handleChange}>
+                    { imgList.map(name => <option key={name} value={name}>{name}</option>) }
                 </select>
             </label>
         </div>
     }
 
     handleChange(event) {
-        this.setState({queueName: event.target.value});
+        this.props.setSelectedImage(event.target.value);
     }
 }
 

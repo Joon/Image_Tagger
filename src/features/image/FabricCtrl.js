@@ -30,19 +30,21 @@ class FabricControlInternal extends Component {
             let targetY = options.target.get('gridY');
             let distance = window.clickDistance;
             window.selectAdjacentCells(targetX, targetY, distance, window.currentClickCategory,
-                window.currentClickColor);
+                window.currentClickColor, window.currentOverride);
             window.fabricCanvas.requestRenderAll();
         });
 
-        window.selectAdjacentCells = function (targetX, targetY, distance, category, color) {
+        window.selectAdjacentCells = function (targetX, targetY, distance, category, color, override) {
             let groupObjects = window.fabricCanvas.getObjects();
             for(let i = 1; i < groupObjects.length; i++) {
                 let currentRect = groupObjects[i];
                 let xDist = Math.abs(currentRect.get('gridX') - targetX);
                 let yDist = Math.abs(currentRect.get('gridY') - targetY);
                 if (xDist + yDist <= distance - 1) {
+                    if (currentRect.get('category') === 'none' || override) {
                         currentRect.set('category', category);
                         currentRect.set('fill', color);
+                    }
                 }                    
             }
             window.fabricCanvas.requestRenderAll();
@@ -82,7 +84,7 @@ class FabricControlInternal extends Component {
                 let targetY = options.target.get('gridY');
                 let distance = window.clickDistance;
                 window.selectAdjacentCells(targetX, targetY, distance, window.currentClickCategory,
-                    window.currentClickColor);
+                    window.currentClickColor, window.currentOverride);
             }
         });
 
@@ -190,6 +192,7 @@ class FabricControlInternal extends Component {
             }
             window.fabricCanvas.absolutePan(window.canvasOrigin);
             window.fabricCanvas.renderAll();
+            window.currentOverride = this.props.currentOverride;
             window.currentClickColor = this.props.currentClassificationColor;
             window.currentClickCategory = this.props.currentClassificationName;
             window.clickDistance = this.props.currentWidth;
@@ -204,7 +207,9 @@ const mapStateToProps = (state, ownProps) => {
         currentZoom: state.fabric.currentZoom,
         currentWidth: state.fabric.currentWidth,
         currentClassificationName: state.fabric.currentClassificationName,
-        currentClassificationColor: state.fabric.currentClassificationColor
+        currentClassificationColor: state.fabric.currentClassificationColor,
+        currentOverride: state.fabric.currentOverride
+
     }
 }
 

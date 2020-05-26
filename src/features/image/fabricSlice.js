@@ -10,7 +10,8 @@ export const fabricSlice = createSlice({
     currentZoom: 0,
     currentWidth: 3,
     currentClassificationName: "none",
-    currentClassificationColor: "gray"
+    currentClassificationColor: "gray",
+    currentOverride: false
   },
   reducers: {
     setFabricData: (state, action) => {
@@ -32,11 +33,14 @@ export const fabricSlice = createSlice({
     setClassification: (state, action) => {
       state.currentClassificationColor = action.payload.color;
       state.currentClassificationName = action.payload.type;
-    }
+    },
+    setOverride:  (state, action) => {
+        state.currentOverride = action.payload;        
+    },
   },
 });
 
-export const { setFabricData, showImage, setZoomLevel, setCurrentWidth, setClassification } = fabricSlice.actions;
+export const { setFabricData, showImage, setZoomLevel, setCurrentWidth, setClassification, setOverride } = fabricSlice.actions;
 
 export const selectFabricData = state => state.fabricData;
 
