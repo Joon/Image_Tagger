@@ -114,6 +114,7 @@ class FabricControlInternal extends Component {
             }
             
             if (renderImage) {
+                let captureProps = this.props;
                 fabric.Image.fromURL(this.props.currentImage, function(myImg) {
                     window.fabricCanvas.clear();
                     //i create an extra var for to change some image properties
@@ -132,8 +133,17 @@ class FabricControlInternal extends Component {
         
                     var gridSize = 30; // define grid size
         
-                    for(var x = Math.ceil(gridWidth/gridSize); x--;){
-                        for(var y = Math.ceil(gridHeight/gridSize); y--;){
+                    for(let x = Math.ceil(gridWidth/gridSize); x--;){
+                        for(let y = Math.ceil(gridHeight/gridSize); y--;){
+                            let currentCategory = "none";
+                            let currentColor = "grey";                            
+                            if (captureProps.currentClassificationData) {
+                                let currentCell = captureProps.currentClassificationData.find((dataItem) => dataItem.xCoord === x && dataItem.yCoord === y);
+                                if (currentCell) {
+                                    currentCategory = currentCell.category;
+                                    currentColor = captureProps.classificationTypes.find(category => category.type === currentCategory).color;
+                                }
+                            }
                             // create a rectangle object
                             var rect = new fabric.Rect({
                                 left: (x * gridSize),
@@ -142,7 +152,7 @@ class FabricControlInternal extends Component {
                                 height: gridSize,
                                 strokeWidth: 1,
                                 stroke:'black',                                
-                                fill:'grey',
+                                fill:currentColor,
                                 opacity: 0.5,
                                 lockMovementY: true,
                                 lockMovementX: true,
@@ -152,7 +162,7 @@ class FabricControlInternal extends Component {
                                 hasControls: false,
                                 hasBorders: false
                             });
-                            rect.set('category', 'none');
+                            rect.set('category', currentCategory);
                             rect.set('gridX', x);
                             rect.set('gridY', y);
                             rect.setControlsVisibility({
@@ -204,12 +214,13 @@ class FabricControlInternal extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {    
         currentImage: state.fabric.displayImage,
+        currentClassificationData: state.fabric.fabricData,
         currentZoom: state.fabric.currentZoom,
         currentWidth: state.fabric.currentWidth,
         currentClassificationName: state.fabric.currentClassificationName,
         currentClassificationColor: state.fabric.currentClassificationColor,
-        currentOverride: state.fabric.currentOverride
-
+        currentOverride: state.fabric.currentOverride,
+        classificationTypes: state.fabric.classificationTypes
     }
 }
 

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { showImage, setZoomLevel, setCurrentWidth, setClassification, setOverride } from './fabricSlice';
+import { showImage, setZoomLevel, setCurrentWidth, setClassification, setOverride, saveClassification } from './fabricSlice';
 import styles from './image.module.css';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import QueueControl from '../queue/QueueCtrl';
-import { Checkbox } from 'antd';
+import { Checkbox, Button } from 'antd';
 
 class ControlPanelInternal extends Component {        
 
@@ -17,6 +17,7 @@ class ControlPanelInternal extends Component {
         this.setWidth = this.setWidth.bind(this);
         this.setClassificationType = this.setClassificationType.bind(this);
         this.overrideChange = this.overrideChange.bind(this);
+        this.saveClassificationData = this.saveClassificationData.bind(this);
     }
 
     render() {
@@ -63,12 +64,19 @@ class ControlPanelInternal extends Component {
                             </label>
                         </div>
                     <p>Current data count:</p> {displayCatCount}
+                    <div>
+                        <Button onClick={this.saveClassificationData}>Save Classification Data</Button>
+                    </div>
                 </div>);
         } 
     }
 
     loadImage(imageUri) {
         this.props.displayImage(imageUri);
+    }
+
+    saveClassificationData() {
+        this.props.saveClassification();
     }
 
     overrideChange(event) {
@@ -106,7 +114,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         setZoom: function(zoomLevel) { dispatch(setZoomLevel(zoomLevel)) },
         setWidth: function(newWidth) { dispatch(setCurrentWidth(newWidth))},
         setClassificationType: function(newClassification) { dispatch(setClassification(newClassification)) },
-        setOverrideValue: function(newOverride) { dispatch(setOverride(newOverride)) }
+        setOverrideValue: function(newOverride) { dispatch(setOverride(newOverride)) },
+        saveClassification: function() { dispatch(saveClassification()); }
     }
 }
 
