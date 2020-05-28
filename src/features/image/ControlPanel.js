@@ -24,8 +24,7 @@ class ControlPanelInternal extends Component {
         if (!this.props.currentImage || this.props.currentImage === "") {
             // no object is on the canvas so show interface to add one
             return (<div className={styles.controlPanel}>
-                <QueueControl></QueueControl>
-                {/*<button onClick={this.loadImage}>Add Picture</button>*/}
+                <QueueControl></QueueControl>                
             </div>);
         } else {
             let displayCatCount = null;
@@ -38,6 +37,7 @@ class ControlPanelInternal extends Component {
             let captureState = this.state;
             // an object is selected so lets interact with it
             return (<div className={styles.controlPanel}>
+                        <QueueControl></QueueControl>
                         <div className={styles.gridcontainer}>
                             <div className={this.props.currentZoom === 1 ? styles.activeGridItem : styles.griditem} onClick={ () => this.setZoomLevel(1) }>Top Left</div>
                             <div className={this.props.currentZoom === 2 ? styles.activeGridItem : styles.griditem} onClick={ () => this.setZoomLevel(2) }>Top Right</div>

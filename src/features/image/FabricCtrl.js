@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setFabricData } from './fabricSlice';
+import { setLoading } from '../management/managementSlice';
 
 var fabric = window.fabric;
 
@@ -115,8 +116,11 @@ class FabricControlInternal extends Component {
             
             if (renderImage) {
                 let captureProps = this.props;
-                fabric.Image.fromURL(this.props.currentImage, function(myImg) {
-                    window.fabricCanvas.clear();
+                window.fabricCanvas.clear();
+                if (this.props.currentImage)
+                    this.props.setLoading(true);
+                
+                fabric.Image.fromURL(this.props.currentImage, function(myImg) {                 
                     //i create an extra var for to change some image properties
                     var img1 = myImg.set({ left: 0, top: 0});                    
                     img1.setControlsVisibility({
@@ -171,6 +175,7 @@ class FabricControlInternal extends Component {
                                 mtr: false, 
                             });
                             window.fabricCanvas.add(rect);
+                            captureProps.setLoading(false);
                         }
                     }
                     window.fabricCanvas.getObjects()[0].set('renderedImage', captureImage);
@@ -228,6 +233,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         setFabricData: (data) => {
             dispatch(setFabricData(data))
+        },
+        setLoading: (loading) => {
+            dispatch(setLoading(loading));
         }
     }
 }

@@ -1,19 +1,21 @@
 import React from 'react';
 import './App.css';
-import { selectError } from './features/management/managementSlice';
+import { selectLoading } from './features/management/managementSlice';
 import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from './Home';
 import SignUpContainer from './features/usermanagement/SignUpContainer';
 import ConfirmRegistration from './features/usermanagement/ConfirmRegistration';
 import LoginControl from './features/usermanagement/LoginControl';
+import { Spin, Modal } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
 function App() {
-  const globalError = useSelector(selectError);
-
+  const globalLoading = useSelector(selectLoading);
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -22,7 +24,7 @@ function App() {
           <div>
             <div>
               <nav>
-                <Link to="/login">Login</Link><br/><Link to="/signup">Sign Up</Link><br/><Link to="/">Home</Link><br/>                
+                <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;<Link to="/signup">Sign Up</Link>&nbsp;&nbsp;&nbsp;<Link to="/">Home</Link>
               </nav>
             </div>
             <Switch>          
@@ -40,9 +42,12 @@ function App() {
           </div>
         </Router>        
       </header>
-        <footer>
-          <span>{globalError}</span>
-        </footer>
+      <Modal
+          title="Loading"
+          visible={globalLoading}
+          footer={null}>
+           <Spin indicator={<LoadingOutlined />}/>
+      </Modal>
     </div>
   );
 }

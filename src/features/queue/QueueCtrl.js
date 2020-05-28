@@ -22,7 +22,7 @@ class QueueControlInternal extends Component {
             <label>
                 Select Image to Classify:
                 <select value={this.props.currentImage} onChange={this.handleChange}>
-                    { imgList.map(name => <option key={name} value={name}>{name}</option>) }
+                    { imgList.map((name, ix) => <option key={name} value={name}>{this.props.availableImageNames[ix - 1]}</option>) }
                 </select>
             </label>
         </div>
@@ -36,6 +36,8 @@ class QueueControlInternal extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {    
         currentImage: state.queue.currentItem ? state.queue.currentItem.name : "",
+        availableImageNames: state.queue.queueImages ? state.queue.queueImages.map(x => x.name + 
+            (state.queue.completedClassifications.some(y => y.name === x.name ) ? "**" : "") ) : [],
         availableImages: state.queue.queueImages ? state.queue.queueImages.map(x => x.name) : [],
         queueName: state.queue.queueName
     }
