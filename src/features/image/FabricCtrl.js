@@ -44,6 +44,7 @@ class FabricControlInternal extends Component {
                 if (xDist + yDist <= distance - 1) {
                     if (currentRect.get('category') === 'none' || override) {
                         currentRect.set('category', category);
+                        currentRect.set('opacity', category === 'none' ? 0.1 : 0.4);
                         currentRect.set('fill', color);
                     }
                 }                    
@@ -139,8 +140,8 @@ class FabricControlInternal extends Component {
         
                     for(let x = Math.ceil(gridWidth/gridSize); x--;){
                         for(let y = Math.ceil(gridHeight/gridSize); y--;){
-                            let currentCategory = "none";
-                            let currentColor = "grey";                            
+                            let currentCategory = 'none';
+                            let currentColor = 'grey';
                             if (captureProps.currentClassificationData) {
                                 let currentCell = captureProps.currentClassificationData.find((dataItem) => dataItem.xCoord === x && dataItem.yCoord === y);
                                 if (currentCell) {
@@ -157,7 +158,7 @@ class FabricControlInternal extends Component {
                                 strokeWidth: 1,
                                 stroke:'black',                                
                                 fill:currentColor,
-                                opacity: 0.5,
+                                opacity: currentCategory === 'none' ? 0.1 : 0.4,
                                 lockMovementY: true,
                                 lockMovementX: true,
                                 hoverCursor: 'crosshair',

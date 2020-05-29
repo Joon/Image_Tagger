@@ -6,14 +6,14 @@ import { advanceQueue } from '../queue/queueSlice';
 export const fabricSlice = createSlice({
     name: 'fabric',
     initialState: {
-        classificationTypes: [{type: "none", color: "grey"}, {type: "foliage", color: "green"}, 
-            {type: "water", color: "blue"}, {type: "building", color: "pink"}, {type: "road", color: "yellow"}],
+        classificationTypes: [{type: 'none', color: 'grey'}, {type: 'foliage', color: 'green'}, 
+            {type: 'water', color: 'blue'}, {type: 'building', color: 'pink'}, {type: 'road', color: 'yellow'}],
         fabricData: [],
-        displayImage: "",
+        displayImage: '',
         currentZoom: 0,
         currentWidth: 3,
-        currentClassificationName: "none",
-        currentClassificationColor: "gray",
+        currentClassificationName: 'none',
+        currentClassificationColor: 'gray',
         currentOverride: false
     },
     reducers: {
