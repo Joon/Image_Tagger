@@ -108,6 +108,7 @@ class FabricControlInternal extends Component {
             var renderImage = true;
             var objects = window.fabricCanvas.getObjects();
             let fullImageZoom = 1;
+            
             if (objects.length > 0) {
                 var currentImage = objects[0].get('renderedImage');
                 if (currentImage === this.props.currentImage)
@@ -190,17 +191,18 @@ class FabricControlInternal extends Component {
 
             if (this.props.currentZoom !== 0) {
                 window.fabricCanvas.setZoom(fullImageZoom * 2);  
+                let zoomFactor = objects[0].width / window.fabricCanvas.width;
                 if (this.props.currentZoom === 1) {
                     window.canvasOrigin = { x: 0, y: 0 };
                 }
                 if (this.props.currentZoom === 2) {
-                    window.canvasOrigin = { x: objects[0].width / 4.5, y: 0 };
+                    window.canvasOrigin = { x: ((objects[0].width / 2) / zoomFactor) * 2, y: 0 };
                 }
                 if (this.props.currentZoom === 3) {
-                    window.canvasOrigin = { x: 0, y: objects[0].height / 4.5 };
+                    window.canvasOrigin = { x: 0, y: ((objects[0].height / 2) / zoomFactor) * 2};
                 }
                 if (this.props.currentZoom === 4) {
-                    window.canvasOrigin = { x: objects[0].width / 4.5, y: objects[0].height / 4.5 };
+                    window.canvasOrigin = { x: ((objects[0].width / 2) / zoomFactor) * 2, y: ((objects[0].height / 2) / zoomFactor) * 2 };
                 }                              
             } else {
                 window.fabricCanvas.setZoom(fullImageZoom);
